@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Javascript Regex Testing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #groups-container {
+        display:none;
+      }
+      #pre-matched {
+        display:none;
+        margin-top:20px;
+      }
+      .match_highlight {
+        color: rgba(82, 168, 236, 0.796875);
+        font-weight:bold;
+      }
+      #matched-regex {
+        font-size:20px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Operation Regex</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#about">Contribute</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Javascript Regex Testing</h1>
+      <p>Use this tool to test regular expressions in javascript.<br> Matches will be displayed below, groups to the right.</p>
+      <div class="row">
+        <div class="span7">
+          <h2>Input</h2>
+          <div class="control-group">
+            <div class="control-group">
+              <input class="input-xxlarge span7" id="regex-input" type="text" placeholder="regex">
+              <br>
+              <span class="help-block span7" id="bad-regex"></span>
+            </div>
+            <textarea class="input-xxlarge span7" id="test-string-input" type="text" rows="4" placeholder="Test String"></textarea>
+          </div>
+          <div class="row">
+            <div class="span7">
+              <h4>
+                <div id="match-message"></div>
+              </h4>
+            </div>
+            <div class="span7" id="pre-matched">
+              <pre>
+                <p id="matched-regex"></p>
+              </pre>
+            </div>
+          </div>
+        </div>
+        <div class="span5" id="groups-container">
+          <h2>Groups</h2>
+          <div id="results" class="bs-docs-fred"></div>
+        </div>
+      </div><!-- /row -->
+    </div> <!-- /container -->
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $("#test-string-input").bind('keyup paste change', function() {
+            runRegexChecking();
+          });
+
+          $("#regex-input").bind('keyup paste change', function() {
+            runRegexChecking();
+          });
+
+          function runRegexChecking() {
+            cleanup();
+            var regex_input = $("#regex-input").val();
+            var test_string = $("#test-string-input").val();
+            var regular_expression = validateRegex(regex_input);
+            checkRegexWhitespace(regex_input);
+            checkMatch(regular_expression, test_string);
+          }
+
+          function checkRegexWhitespace(regex_input) {
+            if (regex_input.match(/\s$|^\s/)) {
+              $("#regex-input").parent(".control-group").addClass("warning");
+              $("#bad-regex").append("Warning: Your regular expression contains leading or trailing whitespace.<br>");
+            }
+          }
+
+          function validateRegex(regex_input) {
+            try {
+              var regular_expression = new RegExp(regex_input);
+              return regular_expression
+            } catch(err) {
+              $("#regex-input").parent(".control-group").addClass("error");
+              $("#bad-regex").html("Error: " + err.message + "<br>");
+              return null
+            }
+          }
+          function checkMatch(regex, str) {
+            var regex_match = str.match(regex);
+            if (regex_match && $("#regex-input").val() != "") {
+              $("#pre-matched").show();
+              var input_text = $("#test-string-input").val();
+              $("#matched-regex").html(input_text.replace(regex_match[0], "<span class='match_highlight'>" + regex_match[0] + "</span>"));
+
+              if (regex_match.length > 1) {
+                $("#groups-container").show();
+                var results_html = "<dl>";
+                for (var i=1; i < regex_match.length; ++i) {
+                  if (i in regex_match) {
+                    var s = regex_match[i];
+                    results_html += "<dt>Group " + i + "</dt>";
+                    if (s == "") {
+                      s = "Empty Group!";
+                    }
+                    results_html += "<pre class='span5'><dd>" + s + "</dd></pre>";
+                  }
+                }
+                results_html += "<dl>";
+                $("#results").html(results_html);
+              }
+              updateResults(regex_match);
+            } else {
+              $("#match-message").text("No match");
+            }
+            return regex_match ? true : false
+          }
+          function updateResults(regex_match) {
+            $("#test-string-input").parent(".control-group").addClass("success");
+            $("#match-message").text("");
+            if ($("#regex-input").val() != "") {
+              $("#match-message").text("Match at index " + regex_match.index);
+            }
+          }
+
+          function cleanup() {
+              $("#bad-regex").html("");
+              $("#regex-input").parent(".control-group").removeClass("error");
+              $("#regex-input").parent(".control-group").removeClass("warning");
+              $("#groups-container").hide();
+              $("#test-string-input").parent(".control-group").removeClass("success");
+              $("#pre-matched").hide();
+              $("#match-message").text("");
+          }
+      });
+    </script>
+  </body>
+</html>
+
