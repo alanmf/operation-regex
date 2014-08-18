@@ -65,6 +65,154 @@
       <h1>Javascript Regex Testing</h1>
       <p>Use this tool to test regular expressions in javascript.<br> Matches will be displayed below, groups to the right.</p>
       <div class="row">
+        <div class="span3">
+          <table class="table table-striped">
+            <thead>
+              <tr colspan="2">
+                <th>Basics</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>.</td>
+                <td>Any non-newline char</td>
+              </tr>
+              <tr>
+                <td>\s</td>
+                <td>Any whitespace char</td>
+              </tr>
+              <tr>
+                <td>\d</td>
+                <td>Any digit</td>
+              </tr>
+
+              <tr>
+                <td>^</td>
+                <td>Start of line</td>
+              </tr>
+              <tr>
+                <td>$</td>
+                <td>End of line</td>
+              </tr>
+              <tr>
+                <td>\</td>
+                <td>Character Escape</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="span3">
+          <table class="table table-striped">
+            <thead>
+              <tr colspan="2">
+                <th>More</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\n</td>
+                <td>Newline</td>
+              </tr>
+              <tr>
+                <td>\t</td>
+                <td>Tab</td>
+              </tr>
+              <tr>
+                <td>[abc]</td>
+                <td>Any single char: a, b, or c</td>
+              </tr>
+              <tr>
+                <td>[^abc]</td>
+                <td>Any char except: a, b, or c</td>
+              </tr>
+              <tr>
+                <td>[a-z]</td>
+                <td>Any char a to z</td>
+              </tr>
+
+              <tr>
+                <td>[a-zA-Z]</td>
+                <td>Any char a to z OR A to Z</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="span3">
+          <table class="table table-striped">
+            <thead>
+              <tr colspan="2">
+                <th>Quantifiers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>*</td>
+                <td>0 or more</td>
+              </tr>
+              <tr>
+                <td>+</td>
+                <td>1 or more</td>
+              </tr>
+              <tr>
+                <td>?</td>
+                <td>0 or 1</td>
+              </tr>
+              <tr>
+                <td>{2}</td>
+                <td>Exactly 2</td>
+              </tr>
+              <tr>
+                <td>{3, 6}</td>
+                <td>Between 3 and 6</td>
+              </tr>
+              <tr>
+                <td>{4,}</td>
+                <td>4 or more</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="span3">
+          <table class="table table-striped">
+            <thead>
+              <tr colspan="2">
+                <th>Groups</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>(...)</td>
+                <td>Capturing Group</td>
+              </tr>
+              <tr>
+                <td>(?:...)t</td>
+                <td>Non-capturing group</td>
+              </tr>
+              <tr>
+                <td>(a|b)</td>
+                <td>Match a or b</td>
+              </tr>
+              <tr>
+                <td>(...)?</td>
+                <td>Optional match group</td>
+              </tr>
+              <tr>
+                <td>(\d\d)</td>
+                <td>Match any two digits</td>
+              </tr>
+
+              <tr>
+                <td>(joe)</td>
+                <td>Match word 'joe'</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="row">
         <div class="span7">
           <h2>Input</h2>
           <div class="control-group">
