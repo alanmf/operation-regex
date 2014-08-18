@@ -41,7 +41,7 @@ $(document).ready(function() {
     }
 
     function updateShareUrl(regex, test) {
-      $("#share").attr('href', "file:///var/www/operation-regex/index.html?regex=" + regex + "&test=" + test);
+      $("#share").attr('href', "http://regex.observepoint.com?regex=" + regex + "&test=" + test);
     }
 
     function checkRegexWhitespace(regex_input) {
